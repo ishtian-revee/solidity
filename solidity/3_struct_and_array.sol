@@ -16,10 +16,13 @@ contract SimpleStorage {
     People[] public people;     // Dynamic array: the size of the array is not predefined
     People[3] public people1;   // array size given
 
+    mapping(string => uint256) public nameToNumber;
+
     // if variable of type array, struct and mapping then it needs to be specified as memory
     // string is basically array of bytes, this is why it is specified as memory
     function addPerson(string memory _name, uint256 _number) public {
         people.push(People(_number, _name));
+        nameToNumber[_name] = _number;
     }
 
     function store(uint256 _favoriteNumber) public {
@@ -35,6 +38,16 @@ contract SimpleStorage {
 /*
 
 Notes:
+
+- visibility types: public, private, internal, external
+- View and pure functions when called alone, don't spend gas. We only spend gas when we only modify the state of a blockchain
+- view functions are just for read data and disallows any modification of state
+- pure function also same as 'view' function but additionally disallow you to read from blockchain state
+- if a gas calling function calls a vie or pure function - only then it will cost gas
+- returns(...) => what this function will give us
+- every generated smart contract has addres: 0xd9145CCE52D386f254917e481eB44e9943F39138 
+
+==================================================
 
 EVM can access and store information in six places:
 
